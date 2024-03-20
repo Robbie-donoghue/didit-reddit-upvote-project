@@ -2,6 +2,17 @@ import { CommentForm } from "@/components/CommentForm";
 import { CommentList } from "@/components/CommentList";
 import { Vote } from "@/components/Vote";
 import { db } from "@/db";
+export async function generateMetadata({ params }) {
+  const rawPosts = await db.query(
+    `SELECT * FROM posts WHERE posts.id = ${params.postId}`
+  );
+  const posts = rawPosts.rows[0];
+  console.log(posts);
+  return {
+    title: `didit-media ${posts.title}`,
+    description: `This is a post about ${posts.title}`,
+  };
+}
 
 export default async function SinglePostPage({ params }) {
   const postId = params.postId;
